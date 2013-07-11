@@ -5,6 +5,8 @@ TRAC_ENV_DIR=$TRAC_BASE_DIR/env
 TRAC_SCM_DIR=$TRAC_BASE_DIR/scm
 TRAC_DEPLOY_DIR=$TRAC_BASE_DIR/deploy
 
+TRAC_DEFAULT_INI=$OPENSHIFT_REPO_DIR/.openshift/config/trac.ini
+
 
 if [ ! -d $TRAC_ENV_DIR ]; then
     # Create the base directory
@@ -23,7 +25,14 @@ if [ ! -d $TRAC_ENV_DIR ]; then
     fi
 
     # We create the trac environment
-    trac-admin $TRAC_ENV_DIR initenv "$OPENSHIFT_APP_NAME" $TRAC_DB
+    trac-admin $TRAC_ENV_DIR initenv "$OPENSHIFT_APP_NAME" $TRAC_DB --inherit $TRAC_DEFAULT_INI
+
+    # Give the admin user permissions
+    trac-admin $TRAC_ENV_DIR permission add admin TRAC_ADMIN
+
+    echo "---------------------------------------------"
+    echo "Admin permissions given to user 'admin'"
+    echo "Register a user with that user name on first use"
 fi
 
 # Extract static resources
