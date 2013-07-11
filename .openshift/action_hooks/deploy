@@ -7,10 +7,13 @@ TRAC_DEPLOY_DIR=$TRAC_BASE_DIR/deploy
 
 TRAC_DEFAULT_INI=$OPENSHIFT_REPO_DIR/.openshift/config/trac.ini
 
-
-if [ ! -d $TRAC_ENV_DIR ]; then
+if [ ! -d $TRAC_BASE_DIR ]; then
     # Create the base directory
     mkdir -p $TRAC_BASE_DIR
+fi
+
+if [ ! -d $TRAC_ENV_DIR ]; then
+
 
     # Work out the database we are using
     if [ -n "$OPENSHIFT_MYSQL_DB_HOST" ]; then
@@ -25,7 +28,7 @@ if [ ! -d $TRAC_ENV_DIR ]; then
     fi
 
     # We create the trac environment
-    trac-admin $TRAC_ENV_DIR initenv "$OPENSHIFT_APP_NAME" $TRAC_DB --inherit $TRAC_DEFAULT_INI
+    trac-admin $TRAC_ENV_DIR initenv --inherit=$TRAC_DEFAULT_INI "$OPENSHIFT_APP_NAME" $TRAC_DB
 
     # Give the admin user permissions
     trac-admin $TRAC_ENV_DIR permission add admin TRAC_ADMIN
