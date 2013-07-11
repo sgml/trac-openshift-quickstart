@@ -28,18 +28,18 @@ if [ ! -d $TRAC_ENV_DIR ]; then
     fi
 
     # We create the trac environment
-    trac-admin $TRAC_ENV_DIR initenv --inherit=$TRAC_DEFAULT_INI "$OPENSHIFT_APP_NAME" $TRAC_DB
+    trac-admin $TRAC_ENV_DIR initenv --inherit=$TRAC_DEFAULT_INI "$OPENSHIFT_APP_NAME" $TRAC_DB > /dev/null
 
     # Give the admin user permissions
-    trac-admin $TRAC_ENV_DIR permission add admin TRAC_ADMIN
+    trac-admin $TRAC_ENV_DIR permission add admin TRAC_ADMIN > /dev/null
 
     echo "---------------------------------------------"
     echo "Admin permissions given to user 'admin'"
-    echo "Register a user with that user name on first use"
+    echo "Go to http://$OPENSHIFT_APP_DNS/register and create a user with that user name on first use"
 fi
 
 # Extract static resources
-trac-admin $TRAC_ENV_DIR deploy $TRAC_DEPLOY_DIR
+trac-admin $TRAC_ENV_DIR deploy $TRAC_DEPLOY_DIR > /dev/null
 
 # Link $TRAC_DEPLOY_DIR/public directory to $OPENSHIFT_REPO_DIR/wsgi/static
 for file in $TRAC_DEPLOY_DIR/htdocs/*; do
