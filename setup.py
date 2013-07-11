@@ -1,9 +1,10 @@
 from setuptools import setup
 
-setup(name='YourAppName', version='1.0',
-    description='OpenShift Python-2.7 Community Cartridge based application',
-    author='Your Name', author_email='ramr@example.org',
-    url='http://www.python.org/sigs/distutils-sig/',
+setup(
+    name='TracOpenShiftQuickstart', 
+    version='1.0',
+    description='OpenShift trac quickstart',
+    author='Kelvin Mo',
 
     install_requires=[
         'Trac == 1.0',

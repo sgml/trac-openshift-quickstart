@@ -1,0 +1,32 @@
+#!/bin/bash
+
+TRAC_BASE_DIR=$OPENSHIFT_DATA_DIR/trac
+TRAC_ENV_DIR=$TRAC_BASE_DIR/env
+TRAC_SCM_DIR=$TRAC_BASE_DIR/scm
+TRAC_DEPLOY_DIR=$TRAC_BASE_DIR/deploy
+
+
+if [ ! -d $TRAC_ENV_DIR ]; then
+    # Create the base directory
+    mkdir -p $TRAC_BASE_DIR
+
+    # Work out the database we are using
+    if [ -n "$OPENSHIFT_MYSQL_DB_HOST" ]; then
+        echo "Setting up with MySQL..."
+        TRAC_DB=mysql://$OPENSHIFT_MYSQL_DB_USERNAME:$OPENSHIFT_MYSQL_DB_PASSWORD@$OPENSHIFT_MYSQL_DB_HOST:$OPENSHIFT_MYSQL_DB_PORT/$OPENSHIFT_APP_NAME
+    elif [ -n "$OPENSHIFT_POSTGRESQL_DB_HOST" ]; then
+        echo "Setting up with Postgres..."
+        TRAC_DB=postgres://$OPENSHIFT_POSTGRESQL_DB_USERNAME:$OPENSHIFT_POSTGRESQL_DB_PASSWORD@$OPENSHIFT_POSTGRESQL_DB_HOST:$OPENSHIFT_POSTGRESQL_DB_PORT/$OPENSHIFT_APP_NAME
+    else
+        echo "Setting up with sqlite..."
+        TRAC_DB=sqlite:db/trac.db
+    fi
+
+    # We create the trac environment
+    trac-admin $TRAC_ENV_DIR initenv "$OPENSHIFT_APP_NAME" $TRAC_DB
+fi
+
+# Link $RADIANT_DIR/public directory to $OPENSHIFT_REPO_DIR/public
+for file in $RADIANT_DIR/public/*; do
+    ln -sf $file $OPENSHIFT_REPO_DIR/public/
+done
