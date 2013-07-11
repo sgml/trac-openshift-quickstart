@@ -26,7 +26,10 @@ if [ ! -d $TRAC_ENV_DIR ]; then
     trac-admin $TRAC_ENV_DIR initenv "$OPENSHIFT_APP_NAME" $TRAC_DB
 fi
 
-# Link $RADIANT_DIR/public directory to $OPENSHIFT_REPO_DIR/public
-for file in $RADIANT_DIR/public/*; do
-    ln -sf $file $OPENSHIFT_REPO_DIR/public/
+# Extract static resources
+trac-admin $TRAC_ENV_DIR deploy $TRAC_DEPLOY_DIR
+
+# Link $TRAC_DEPLOY_DIR/public directory to $OPENSHIFT_REPO_DIR/wsgi/static
+for file in $TRAC_DEPLOY_DIR/htdocs/*; do
+    ln -sf $file $OPENSHIFT_REPO_DIR/wsgi/static/
 done
