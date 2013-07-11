@@ -7,6 +7,7 @@ setup(
     author='Kelvin Mo',
 
     install_requires=[
+        'gevent',
         'Trac == 1.0',
         'MySQL-python',
         'psycopg2',

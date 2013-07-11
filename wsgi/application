@@ -3,7 +3,7 @@ import os
 
 def application(environ, start_request):
     if not 'trac.env_parent_dir' in environ:
-        environ.setdefault('trac.env_path', os.join(os.environ['OPENSHIFT_DATA_DIR'], 'trac', 'env'))
+        environ.setdefault('trac.env_path', os.path.join(os.environ['OPENSHIFT_DATA_DIR'], 'trac', 'env'))
     from trac.web.main import dispatch_request
     return dispatch_request(environ, start_request)
 
