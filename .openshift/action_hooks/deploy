@@ -30,12 +30,12 @@ if [ ! -d $TRAC_ENV_DIR ]; then
     # We create the trac environment
     trac-admin $TRAC_ENV_DIR initenv --inherit=$TRAC_DEFAULT_INI "$OPENSHIFT_APP_NAME" $TRAC_DB > /dev/null
 
-    # Give the admin user permissions
-    trac-admin $TRAC_ENV_DIR permission add admin TRAC_ADMIN > /dev/null
+    trac-admin $TRAC_ENV_DIR config set trac base_url "http://$OPENSHIFT_APP_DNS/" > /dev/null
 
     echo "---------------------------------------------"
-    echo "Admin permissions given to user 'admin'"
-    echo "Go to http://$OPENSHIFT_APP_DNS/register and create a user with that user name on first use"
+    echo "Go to http://$OPENSHIFT_APP_DNS/register and create a user"
+    echo "Then give this user admin permissions with this command"
+    echo "trac-admin $TRAC_ENV_DIR permission add <user_name> TRAC_ADMIN"
 fi
 
 # Extract static resources
