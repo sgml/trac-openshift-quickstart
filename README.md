@@ -17,7 +17,7 @@ Running on OpenShift
 
    For example:
 
-       rhc app create radiant python-2.7 mysql-5 --from-code=https://github.com/kelvinmo/trac-openshift-quickstart
+       rhc app create trac python-2.7 mysql-5 --from-code=https://github.com/kelvinmo/trac-openshift-quickstart
 
 3. You will need to create a Trac administration account manually.  SSH to the instance and run the
    following command:
@@ -26,7 +26,7 @@ Running on OpenShift
 
 4. That's it, you can now checkout your application at:
 
-    http://radiant-$yournamespace.rhcloud.com
+    http://trac-$yournamespace.rhcloud.com
     
 
 Notes
